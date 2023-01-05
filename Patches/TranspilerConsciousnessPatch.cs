@@ -30,8 +30,6 @@ namespace Consciousness_Patch
                     if((float)codes[i].operand == 1 && codes[i + 1].opcode == OpCodes.Call){
                         startIndexes.Add(i);
                         endIndexes.Add(i+1);
-                        Log.Error("Start " + i);
-                        Log.Error("End " + i+1);
                     }
                 } 
             }

@@ -13,7 +13,6 @@ namespace Consciousness_Patch
     public class MyPatch
     {
         static MyPatch() {
-            Log.Message("Custom Rimworld Mod Loaded");
             var harmony = new Harmony("com.consciousness.patch");
             harmony.PatchAll();
         }
