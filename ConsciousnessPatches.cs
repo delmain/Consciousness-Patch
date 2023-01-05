@@ -12,9 +12,9 @@ using System.Reflection;
 
 namespace Custom_Rimworld_Mod
 {
+		[HarmonyPatch(typeof(PawnCapacityWorker_Consciousness), nameof(PawnCapacityWorker_Consciousness.CalculateCapacityLevel))]
 	public static class ConsciousnessPatches
 	{
-		[HarmonyPatch(typeof(PawnCapacityWorker_Consciousness), nameof(PawnCapacityWorker_Consciousness.CalculateCapacityLevel))]
 		public static float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors, ref float __result) {
 			Log.Message("Consciousness Patch Fixed");
 			Verse.PawnCapacityWorker newbase = new PawnCapacityWorker();
