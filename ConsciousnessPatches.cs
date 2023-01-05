@@ -12,12 +12,11 @@ using System.Reflection;
 
 namespace Custom_Rimworld_Mod
 {
-	
-	public class ConsciousnessPatches
+	public static class ConsciousnessPatches
 	{
-		[HarmonyReversePatch]
 		[HarmonyPatch(typeof(PawnCapacityWorker_Consciousness), nameof(PawnCapacityWorker_Consciousness.CalculateCapacityLevel))]
-		public static float Postfix(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors, ref float __result) { 
+		public static float CalculateCapacityLevel(HediffSet diffSet, List<PawnCapacityUtility.CapacityImpactor> impactors, ref float __result) {
+			Log.Message("Consciousness Patch Fixed");
 			Verse.PawnCapacityWorker newbase = new PawnCapacityWorker();
 
 			float pump=(float)typeof(PawnCapacityWorker).GetMethod("CalculateCapacityAndRecord", BindingFlags.NonPublic | BindingFlags.Instance).Invoke(newbase, new object[] { diffSet, PawnCapacityDefOf.BloodPumping, impactors });
@@ -38,6 +37,7 @@ namespace Custom_Rimworld_Mod
 			num = Mathf.Lerp(num, num * pump, 0.2f);
 			num = Mathf.Lerp(num, num * breath, 0.2f);
 			return Mathf.Lerp(num, num * filtration, 0.1f);
-		} }
+		} 
 	}
+}
 

@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Custom_Rimworld_Mod</RootNamespace>
-    <AssemblyName>Custom Rimworld Mod</AssemblyName>
+    <AssemblyName>Custom-Rimworld-Mod</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -9,15 +9,13 @@ using HarmonyLib;
 
 namespace Custom_Rimworld_Mod
 {
+    [StaticConstructorOnStartup]
     public class MyPatch
     {
-        public static void DoPatching()
-        {
+        static MyPatch() {
+            Log.Message("Custom Rimworld Mod Loaded");
             var harmony = new Harmony("com.consciousness.patch");
-            
-            
             harmony.PatchAll();
         }
-
     }
 }
