@@ -7,7 +7,7 @@ using Verse;
 using RimWorld;
 using HarmonyLib;
 
-namespace Custom_Rimworld_Mod
+namespace Consciousness_Patch
 {
     [StaticConstructorOnStartup]
     public class MyPatch
