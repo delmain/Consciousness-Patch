@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Assemblies\</OutputPath>
+    <OutputPath>D:\SteamLibrary\steamapps\common\RimWorld\Mods\Consciousness-Patch\Assemblies\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patches\ConsciousnessSettings.cs" />
     <Compile Include="Patches\MyPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Patches\TranspilerConsciousnessPatch.cs" />
@@ -62,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About\About.xml" />
+    <Content Include="About\Manifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assemblies\" />
