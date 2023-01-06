@@ -19,107 +19,97 @@ namespace Consciousness_Patch
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
-            int[] BloodPumping = getIndexes(codes);
-            int[] Breathing = getIndexes(codes, BloodPumping[0]);
-            int[] BloodFiltration = getIndexes(codes, Breathing[0]);
-            List<int[]> allVariables = new List<int[]>();
-            allVariables.Add(BloodFiltration);
-            allVariables.Add(BloodPumping);
-            allVariables.Add(Breathing);
+
+            Dictionary<String,Dictionary<String,int>> mainMap = new Dictionary<String,Dictionary<String, int>>();
+            AddMaptoMain(ref mainMap,"BloodPumping");
+            AddMaptoMain(ref mainMap, "Breathing");
+            AddMaptoMain(ref mainMap, "BloodFiltration");
+
+            mainMap["BloodPumping"]=getMapIndexes(mainMap["BloodPumping"], codes);
+            mainMap["Breathing"] = getMapIndexes(mainMap["Breathing"], codes,mainMap["BloodPumping"]["Percentage"]);
+            mainMap["BloodFiltration"] = getMapIndexes(mainMap["BloodFiltration"], codes, mainMap["Breathing"]["Percentage"]);
+
+            /*
+            Log.Message("BloodPumping: "+" Percentage: "+ mainMap["BloodPumping"]["Percentage"]+
+                " Cap: "+ mainMap["BloodPumping"]["Cap"]+" MathfMin: "+ mainMap["BloodPumping"]["MathfMin"]);
+            Log.Message("Breathing: " + " Percentage: " + mainMap["Breathing"]["Percentage"] +
+                " Cap: " + mainMap["Breathing"]["Cap"] + " MathfMin: " + mainMap["Breathing"]["MathfMin"]);
+            Log.Message("BloodFiltration: " + " Percentage: " + mainMap["BloodFiltration"]["Percentage"] +
+                " Cap: " + mainMap["BloodFiltration"]["Cap"] + " MathfMin: " + mainMap["BloodFiltration"]["MathfMin"]);
+            */
+
+            //changePercentages(ref codes, mainMap["BloodFiltration"]["Percentage"], Patches.ConsciousnessSettings.instance.percentageModifierBF);
+            //changePercentages(ref codes, mainMap["Breathing"]["Percentage"], Patches.ConsciousnessSettings.instance.percentageModifierBR);
+            //changePercentages(ref codes, mainMap["BloodPumping"]["Percentage"], Patches.ConsciousnessSettings.instance.percentageModifierBP);
+
             if (Patches.ConsciousnessSettings.instance.setCap)
             {
-                allVariables.ForEach(x => changeCap(ref codes, x));
+                float maxCap = Patches.ConsciousnessSettings.instance.maxCap * Patches.ConsciousnessSettings.instance.mCMultiplier / 100;
+                changeCaps(ref codes, mainMap["BloodFiltration"]["Cap"], maxCap);
+                changeCaps(ref codes, mainMap["Breathing"]["Cap"], maxCap);
+                changeCaps(ref codes, mainMap["BloodPumping"]["Cap"], maxCap);
             }
             else
             {
-                removeLimit(ref codes, BloodFiltration);
-                getAllIndexes(ref codes, ref BloodPumping, ref Breathing, ref BloodFiltration);
-                removeLimit(ref codes, Breathing);
-                getAllIndexes(ref codes, ref BloodPumping, ref Breathing, ref BloodFiltration);
-                removeLimit(ref codes, BloodPumping);
-                getAllIndexes(ref codes, ref BloodPumping, ref Breathing, ref BloodFiltration);
+
+                removeLimits(ref codes, mainMap["BloodFiltration"]["Cap"], mainMap["BloodFiltration"]["MathfMin"]);
+                removeLimits(ref codes, mainMap["Breathing"]["Cap"], mainMap["Breathing"]["MathfMin"]);
+                removeLimits(ref codes, mainMap["BloodPumping"]["Cap"], mainMap["BloodPumping"]["MathfMin"]);
+
+
             }
-
-            changePercentage(ref codes, BloodPumping, Patches.ConsciousnessSettings.instance.percentageModifierBP);
-            changePercentage(ref codes, Breathing, Patches.ConsciousnessSettings.instance.percentageModifierBR);
-            changePercentage(ref codes, BloodFiltration, Patches.ConsciousnessSettings.instance.percentageModifierBF);
-
-            getAllIndexes(ref codes,ref BloodPumping,ref Breathing,ref BloodFiltration);
-
 
             return codes.AsEnumerable();
 
         }
 
-        public static void changePercentage(ref List<CodeInstruction> __codes, int[] ItemRange,float percentage)
+        public static void AddMaptoMain(ref Dictionary<String, Dictionary<String, int>> __mainMap, String name)
         {
-            for (var i = ItemRange[0]; i < ItemRange[1]; i++)
-            {
-                if (__codes[i].opcode == OpCodes.Ldc_R4 && (float)__codes[i].operand != 1)
-                {
-                    __codes[i].opcode = OpCodes.Nop;
-                    __codes.RemoveAt(i);
-                    __codes.Insert(i, new CodeInstruction(OpCodes.Ldc_R4, percentage));
-                }
-            }
-        }
-
-        public static void changeCap(ref List<CodeInstruction> __codes, int[] ItemRange)
-        {
-            float maxCap = Patches.ConsciousnessSettings.instance.maxCap * Patches.ConsciousnessSettings.instance.mCMultiplier / 100;
-            for (var i = ItemRange[0]; i < ItemRange[1]; i++)
-            {
-                if (__codes[i].opcode == OpCodes.Ldc_R4 && (float)__codes[i].operand==1)
-                {
-                    __codes[i].opcode = OpCodes.Nop;
-                    __codes.RemoveAt(i);
-                    __codes.Insert(i, new CodeInstruction(OpCodes.Ldc_R4, maxCap));
-                }
-            }
-        }
-
-        public static void getAllIndexes(ref List<CodeInstruction> __codes, ref int[] __BloodPumping, ref int[] __Breathing, ref int[] __BloodFiltration)
-        {
-            __BloodPumping = getIndexes(__codes);
-            __Breathing = getIndexes(__codes, __BloodPumping[0]);
-            __BloodFiltration = getIndexes(__codes, __Breathing[0]);
+            Dictionary<String, int> subMap = new Dictionary<String, int>();
+            subMap["Cap"] = 0;
+            subMap["MathfMin"] = 0;
+            subMap["Percentage"] = 0;
+            __mainMap[name] = subMap;
         }
 
 
-        public static void removeLimit(ref List<CodeInstruction> __codes,int[] ItemRange)
+        public static Dictionary<String, int> getMapIndexes(Dictionary<String, int> subMap, List<CodeInstruction> codes,int start=0)
         {
-            for (var i = ItemRange[0]; i < ItemRange[1]; i++)
+            for (var i = start; i < codes.Count; i++)
             {
-                if (__codes[i].opcode == OpCodes.Ldc_R4)
+                if (codes[i].opcode == OpCodes.Ldc_R4)
                 {
-                    if ((float)__codes[i].operand == 1 && __codes[i + 1].opcode == OpCodes.Call)
+                    if ((float)codes[i].operand == 1 && codes[i + 1].opcode == OpCodes.Call)
                     {
-                        __codes[i].opcode = OpCodes.Nop;
-                        __codes.RemoveRange(i + 1, 1);
+                        subMap["Cap"] = i;
+                        subMap["MathfMin"] = i+1;
+                            subMap["Percentage"] = i + 3;
+                        break;
                     }
+
                 }
             }
-            
-
+            return subMap;
         }
 
-        public static int[] getIndexes(List<CodeInstruction> codes,int startIndex=-1)
+        public static void removeLimits(ref List<CodeInstruction> __codes,int cap,int mathfMin)
         {
-            int endIndex = -1;
+            __codes[cap].opcode = OpCodes.Nop;
+            __codes.RemoveRange(cap+1, 1);
+        }
 
-            for (var i = 0; i < codes.Count; i++)
-            {
-                if (codes[i].opcode == OpCodes.Ldsfld && startIndex == -1)
-                {
-                    startIndex = i;   
-                }
-                else if(codes[i].opcode== OpCodes.Ldsfld)
-                {
-                    endIndex = i;
-                }
-            }
+        public static void changePercentages(ref List<CodeInstruction> __codes,int percentageIndex,float percentage)
+        {
+            __codes[percentageIndex].opcode = OpCodes.Nop;
+            __codes.RemoveAt(percentageIndex+1);
+            __codes.Insert(percentageIndex+1, new CodeInstruction(OpCodes.Ldc_R4, percentage));
+        }
 
-            return new int[] { startIndex, endIndex };
+        public static void changeCaps(ref List<CodeInstruction> __codes,int capIndex, float maxCap)
+        {
+            __codes[capIndex].opcode = OpCodes.Nop;
+            __codes.RemoveAt(capIndex+1);
+            __codes.Insert(capIndex+1, new CodeInstruction(OpCodes.Ldc_R4, maxCap));
         }
     }
 }
