@@ -59,13 +59,13 @@ namespace Consciousness_Patch.Patches
             listingStandard.Label("Blood Pumping Percentage Modifier: " + Math.Round(settings.percentageModifierBP*settings.pMMultiplier)+"%", -1, "How much each stat increases Consciousness." +
                 "\n20% means that 150% Blood Pumping increases Consciousness by 10% (20% default)");
             settings.percentageModifierBP = listingStandard.Slider(settings.percentageModifierBP, 0.2f, 1f);
+            listingStandard.Label("Blood Filtration Percentage Modifier: " + Math.Round(settings.percentageModifierBF * settings.pMMultiplier) + "%", -1, "How much each stat increases Consciousness." +
+                "\n20% means that 150% Blood Pumping increases Consciousness by 10%. (10% default)");
+            listingStandard.End();
             settings.percentageModifierBF = listingStandard.Slider(settings.percentageModifierBF, 0.1f, 1f);
             listingStandard.Label("Breathing Percentage Modifier: " + Math.Round(settings.percentageModifierBR * settings.pMMultiplier) + "%", -1, "How much each stat increases Consciousness." +
                 "\n20% means that 150% Blood Pumping increases Consciousness by 10% (20% default)");
             settings.percentageModifierBR = listingStandard.Slider(settings.percentageModifierBR, 0.2f, 1f);
-            listingStandard.Label("Blood Filtration Percentage Modifier: " + Math.Round(settings.percentageModifierBF * settings.pMMultiplier) + "%", -1, "How much each stat increases Consciousness." +
-                "\n20% means that 150% Blood Pumping increases Consciousness by 10%. (10% default)");
-            listingStandard.End();
             base.DoSettingsWindowContents(inRect);
             //ConsciousnessMod.settings.Write();
         }
