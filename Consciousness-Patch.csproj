@@ -53,10 +53,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Patches\ConsciousnessSettings.cs" />
-    <Compile Include="Patches\MyPatch.cs" />
+    <Compile Include="Sources\ConsciousnessSettings.cs" />
+    <Compile Include="Sources\MyPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Patches\TranspilerConsciousnessPatch.cs" />
+    <Compile Include="Sources\TranspilerConsciousnessPatch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -64,6 +64,7 @@
   <ItemGroup>
     <Content Include="About\About.xml" />
     <Content Include="About\Manifest.xml" />
+    <Content Include="license.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assemblies\" />
