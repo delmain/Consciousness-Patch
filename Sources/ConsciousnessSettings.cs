@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
-using RimWorld;
-using HarmonyLib;
 using UnityEngine;
 
 namespace Consciousness_Patch.Patches
@@ -55,18 +49,15 @@ namespace Consciousness_Patch.Patches
 
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
-            listingStandard.Label("-----Settings-----");
-            listingStandard.CheckboxLabeled("Has Cap", ref settings.setCap, "Sets if there is a maximum cap for Blood Filtration, Blood Pumping and Breathing scaling.");
-            listingStandard.Label("Maximum Cap: " +Math.Round(settings.maxCap*settings.mCMultiplier)+"%",-1, "The maximum cap until the stats no longer give any increases to Consciousness");
+            listingStandard.Label("ConPat_Settings_Header".Translate());
+            listingStandard.CheckboxLabeled("ConPat_HasCap_Label".Translate(), ref settings.setCap, "ConPat_HasCap_Tooltip".Translate());
+            listingStandard.Label("ConPat_MaxCap_Label".Translate(Math.Round(settings.maxCap*settings.mCMultiplier)), -1f, "ConPat_MaxCap_Tooltip".Translate());
             settings.maxCap = listingStandard.Slider(settings.maxCap, 0.1f, 1f);
-            listingStandard.Label("Blood Pumping Percentage Modifier: " + Math.Round(settings.percentageModifierBP*settings.pMMultiplier)+"%", -1, "How much each stat increases Consciousness." +
-                "\n20% means that 150% Blood Pumping increases Consciousness by 10% \n(20% default)");
+            listingStandard.Label("ConPat_BloodPumping_Label".Translate(Math.Round(settings.percentageModifierBP*settings.pMMultiplier)), -1f, "ConPat_BloodPumping_Tooltip".Translate());
             settings.percentageModifierBP = listingStandard.Slider(settings.percentageModifierBP, 0.1f, 1f);
-            listingStandard.Label("Blood Filtration Percentage Modifier: " + Math.Round(settings.percentageModifierBF * settings.pMMultiplier) + "%", -1, "How much each stat increases Consciousness." +
-                "\n20% means that 150% Blood Filtration increases Consciousness by 10%. \n(10% default)");
+            listingStandard.Label("ConPat_BloodFiltration_Label".Translate(Math.Round(settings.percentageModifierBF * settings.pMMultiplier)), -1f, "ConPat_BloodFiltration_Tooltip".Translate());
             settings.percentageModifierBF = listingStandard.Slider(settings.percentageModifierBF, 0.1f, 1f);
-            listingStandard.Label("Breathing Percentage Modifier: " + Math.Round(settings.percentageModifierBR * settings.pMMultiplier) + "%", -1, "How much each stat increases Consciousness." +
-                "\n20% means that 150% Breathing increases Consciousness by 10% \n(20% default)");
+            listingStandard.Label("ConPat_Breathing_Label".Translate(Math.Round(settings.percentageModifierBR * settings.pMMultiplier)), -1f, "ConPat_Breathing_Tooltip".Translate());
             settings.percentageModifierBR = listingStandard.Slider(settings.percentageModifierBR, 0.1f, 1f);
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);

@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
 using Verse;
 using RimWorld;
-using System.Reflection;
 using HarmonyLib;
 using System.Reflection.Emit;
 
@@ -27,7 +23,7 @@ namespace Consciousness_Patch
             AddMaptoMain(ref mainMap, "BloodFiltration");
 
             //The map indexes for all three maps are gathered and stored
-            mainMap["BloodPumping"]=getMapIndexes(mainMap["BloodPumping"], codes);
+            mainMap["BloodPumping"] = getMapIndexes(mainMap["BloodPumping"], codes);
             mainMap["Breathing"] = getMapIndexes(mainMap["Breathing"], codes,mainMap["BloodPumping"]["Percentage"]);
             mainMap["BloodFiltration"] = getMapIndexes(mainMap["BloodFiltration"], codes, mainMap["Breathing"]["Percentage"]);
 
@@ -52,12 +48,9 @@ namespace Consciousness_Patch
             }
             else
             {
-
                 RemoveLimit(ref codes, mainMap["BloodFiltration"]["Cap"], mainMap["BloodFiltration"]["MathfMin"]);
                 RemoveLimit(ref codes, mainMap["Breathing"]["Cap"], mainMap["Breathing"]["MathfMin"]);
                 RemoveLimit(ref codes, mainMap["BloodPumping"]["Cap"], mainMap["BloodPumping"]["MathfMin"]);
-
-
             }
             
             Log.Message("Consciousness has been Patched");

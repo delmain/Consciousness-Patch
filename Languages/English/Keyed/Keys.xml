@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+
+    <ConPat_Settings_Header>-----Settings-----</ConPat_Settings_Header>
+
+    <ConPat_HasCap_Label>Has Cap</ConPat_HasCap_Label>
+    <ConPat_HasCap_Tooltip>Sets if there is a maximum cap for Blood Filtration, Blood Pumping and Breathing scaling.</ConPat_HasCap_Tooltip>
+
+    <ConPat_MaxCap_Label>Maximum Cap: {0}%</ConPat_MaxCap_Label>
+    <ConPat_MaxCap_Tooltip>The maximum cap until the stats no longer give any increases to Consciousness</ConPat_MaxCap_Tooltip>
+
+    <ConPat_BloodPumping_Label>Blood Pumping Percentage Modifier: {0}%</ConPat_BloodPumping_Label>
+    <ConPat_BloodPumping_Tooltip>How much each stat increases Consciousness.\n20% means that 150% Blood Pumping increases Consciousness by 10% \n(20% default)</ConPat_BloodPumping_Tooltip>
+
+    <ConPat_BloodFiltration_Label>Blood Filtration Percentage Modifier: {0}%</ConPat_BloodFiltration_Label>
+    <ConPat_BloodFiltration_Tooltip>How much each stat increases Consciousness.\n20% means that 150% Blood Filtration increases Consciousness by 10%. \n(10% default)</ConPat_BloodFiltration_Tooltip>
+
+    <ConPat_Breathing_Label>Breathing Percentage Modifier: {0}%</ConPat_Breathing_Label>
+    <ConPat_Breathing_Tooltip>How much each stat increases Consciousness.\n20% means that 150% Breathing increases Consciousness by 10% \n(20% default)</ConPat_Breathing_Tooltip>
+
+</LanguageData>
